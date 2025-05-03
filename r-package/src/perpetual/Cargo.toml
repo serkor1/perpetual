@@ -1,0 +1,41 @@
+[package]
+name = "perpetual"
+version = "0.9.3"
+edition = "2021"
+authors = ["Mutlu Simsek <msimsek@perpetual-ml.com>"]
+homepage = "https://perpetual-ml.com"
+description = "A self-generalizing gradient boosting machine that doesn't need hyperparameter optimization"
+license-file = "LICENSE"
+readme = "README.md"
+repository = "https://github.com/perpetual-ml/perpetual"
+
+keywords = ["machine-learning", "perpetual", "ai", "ml"]
+categories = ["algorithms", "mathematics", "science"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[profile.release]
+lto = 'fat'
+codegen-units = 1
+#debug = true      # due to flamegraph
+#strip = false     # due to flamegraph
+
+[dependencies]
+rayon = "1.10.0"
+thiserror = "2.0.12"
+serde_json = { version = "1.0.140", features = ["float_roundtrip"] }
+serde = { version = "1.0.219", features = ["derive"] }
+approx = "0.5.1"
+log = "0.4.27"
+rand = "0.9.0"
+sysinfo = "0.33.1"
+
+[dev-dependencies]
+criterion = "0.5.1"
+polars = "0.41"
+reqwest = { version = "0.12.14", features = ["blocking"] }
+csv = "1.3.1"
+chrono = "0.4.40"
+
+[[bench]]
+name = "perpetual_benchmarks"
+harness = false
