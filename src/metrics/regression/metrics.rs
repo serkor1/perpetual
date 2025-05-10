@@ -53,6 +53,12 @@ pub fn root_mean_squared_log_error(y: &[f64], yhat: &[f64], sample_weight: &[f64
 
 /// # Root Mean Squared Error (RMSE)
 /// 
+/// ### Arguments
+/// 
+/// * `y`: An immutable `slice` of `<f64>` of actual values
+/// * `yhat`: An immutable `slice` of `<f64>` of estimated values
+/// * `sample_weight`: An immutable `slice` of `<f64>` of sample weight. Use uniform sample weights for unweighted performance evaluation.
+/// 
 /// ### Objective
 /// | **Objective**  | **Range** |
 /// | :----------: |:---------------:|
