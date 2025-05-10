@@ -1,4 +1,4 @@
-use crate::metrics::*;
+use crate::performance_metrics::*;
 
 pub struct QuantileLossMetric {}
 impl EvaluationMetric for QuantileLossMetric {
@@ -20,6 +20,14 @@ impl EvaluationMetric for RootMeanSquaredLogErrorMetric {
     }
 }
 
+
+/// # Root Mean Squared Error (RMSE)
+/// 
+/// ### Objective
+/// | **Objective**  | **Range** |
+/// | :----------: |:---------------:|
+/// | Minimuze   | `]-inf, inf[` |
+/// 
 pub struct RootMeanSquaredErrorMetric {}
 impl EvaluationMetric for RootMeanSquaredErrorMetric {
     fn calculate_metric(y: &[f64], yhat: &[f64], sample_weight: &[f64], _alpha: Option<f32>) -> f64 {

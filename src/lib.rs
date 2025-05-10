@@ -15,7 +15,8 @@ pub mod data;
 pub mod errors;
 pub mod grower;
 pub mod histogram;
-pub mod metrics;
+#[path = "metrics/mod.rs"]
+pub mod performance_metrics;
 pub mod objective;
 pub mod prune;
 pub mod sampler;

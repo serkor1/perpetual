@@ -1,4 +1,4 @@
-use crate::metrics::*;
+use crate::performance_metrics::*;
 
 pub struct LogLossMetric {}
 impl EvaluationMetric for LogLossMetric {

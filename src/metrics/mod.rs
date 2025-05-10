@@ -1,5 +1,32 @@
-pub mod regression;
-pub mod classification;
+//! # Performance evaluation metrics
+//! 
+//! A collection of performance evaluation metrics for `classification` and `regression` tasks. 
+//! 
+//! ### Basic usage: Root Mean Squared Logarithmic Error
+//! 
+//! ```rust
+//! fn main() {
+//!     // observed values
+//!     let y = vec![1., 3., 4., 5., 2., 4., 6.];
+//! 
+//!     // estimated values
+//!     let yhat = vec![3., 2., 3., 4., 4., 4., 4.];
+//! 
+//!     // sample weights
+//!     let sample_weight = vec![1., 1., 1., 1., 1., 2., 2.];
+//! 
+//!     // calculate
+//!     let res = root_mean_squared_log_error(&y, &yhat, &sample_weight);
+//! }
+//! ```
+
+/// # Metrics for regression tasks
+#[path = "regression/metrics.rs"]
+pub mod regression_metrics;
+
+/// # Metrics for classification tasks
+#[path = "classification/metrics.rs"]
+pub mod classification_metrics;
 
 use crate::data::FloatData;
 use crate::errors::PerpetualError;
@@ -69,17 +96,17 @@ impl FromStr for Metric {
 
 pub fn metric_callables(metric_type: &Metric) -> (MetricFn, bool) {
     match metric_type {
-        Metric::AUC => (classification::AUCMetric::calculate_metric, classification::AUCMetric::maximize()),
-        Metric::LogLoss => (classification::LogLossMetric::calculate_metric, classification::LogLossMetric::maximize()),
+        Metric::AUC => (classification_metrics::AUCMetric::calculate_metric, classification_metrics::AUCMetric::maximize()),
+        Metric::LogLoss => (classification_metrics::LogLossMetric::calculate_metric, classification_metrics::LogLossMetric::maximize()),
         Metric::RootMeanSquaredLogError => (
-            regression::RootMeanSquaredLogErrorMetric::calculate_metric,
-            regression::RootMeanSquaredLogErrorMetric::maximize(),
+            regression_metrics::RootMeanSquaredLogErrorMetric::calculate_metric,
+            regression_metrics::RootMeanSquaredLogErrorMetric::maximize(),
         ),
         Metric::RootMeanSquaredError => (
-            regression::RootMeanSquaredErrorMetric::calculate_metric,
-            regression::RootMeanSquaredErrorMetric::maximize(),
+            regression_metrics::RootMeanSquaredErrorMetric::calculate_metric,
+            regression_metrics::RootMeanSquaredErrorMetric::maximize(),
         ),
-        Metric::QuantileLoss => (regression::QuantileLossMetric::calculate_metric, regression::QuantileLossMetric::maximize()),
+        Metric::QuantileLoss => (regression_metrics::QuantileLossMetric::calculate_metric, regression_metrics::QuantileLossMetric::maximize()),
     }
 }
 
@@ -91,8 +118,8 @@ pub trait EvaluationMetric {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::metrics::classification::*;
-    use crate::metrics::regression::*;
+    use crate::metrics::classification_metrics::*;
+    use crate::metrics::regression_metrics::*;
     use crate::utils::precision_round;
     #[test]
     fn test_root_mean_squared_log_error() {

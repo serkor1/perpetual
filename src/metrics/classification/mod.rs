@@ -1,2 +1,3 @@
-pub mod metrics;
-pub use metrics::*;
+#[path = "metrics.rs"]
+pub mod classification_metrics;
+pub use classification_metrics::*;
