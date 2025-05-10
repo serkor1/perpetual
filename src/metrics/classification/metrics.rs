@@ -10,16 +10,6 @@ impl EvaluationMetric for LogLossMetric {
     }
 }
 
-pub struct AUCMetric {}
-impl EvaluationMetric for AUCMetric {
-    fn calculate_metric(y: &[f64], yhat: &[f64], sample_weight: &[f64], _alpha: Option<f32>) -> f64 {
-        roc_auc_score(y, yhat, sample_weight)
-    }
-    fn maximize() -> bool {
-        true
-    }
-}
-
 pub fn log_loss(y: &[f64], yhat: &[f64], sample_weight: &[f64]) -> f64 {
     let mut w_sum = 0.;
     let res = y
@@ -33,6 +23,16 @@ pub fn log_loss(y: &[f64], yhat: &[f64], sample_weight: &[f64]) -> f64 {
         })
         .sum::<f64>();
     res / w_sum
+}
+
+pub struct AUCMetric {}
+impl EvaluationMetric for AUCMetric {
+    fn calculate_metric(y: &[f64], yhat: &[f64], sample_weight: &[f64], _alpha: Option<f32>) -> f64 {
+        roc_auc_score(y, yhat, sample_weight)
+    }
+    fn maximize() -> bool {
+        true
+    }
 }
 
 fn trapezoid_area(x0: f64, x1: f64, y0: f64, y1: f64) -> f64 {

@@ -10,34 +10,6 @@ impl EvaluationMetric for QuantileLossMetric {
     }
 }
 
-pub struct RootMeanSquaredLogErrorMetric {}
-impl EvaluationMetric for RootMeanSquaredLogErrorMetric {
-    fn calculate_metric(y: &[f64], yhat: &[f64], sample_weight: &[f64], _alpha: Option<f32>) -> f64 {
-        root_mean_squared_log_error(y, yhat, sample_weight)
-    }
-    fn maximize() -> bool {
-        false
-    }
-}
-
-
-/// # Root Mean Squared Error (RMSE)
-/// 
-/// ### Objective
-/// | **Objective**  | **Range** |
-/// | :----------: |:---------------:|
-/// | Minimuze   | `]-inf, inf[` |
-/// 
-pub struct RootMeanSquaredErrorMetric {}
-impl EvaluationMetric for RootMeanSquaredErrorMetric {
-    fn calculate_metric(y: &[f64], yhat: &[f64], sample_weight: &[f64], _alpha: Option<f32>) -> f64 {
-        root_mean_squared_error(y, yhat, sample_weight)
-    }
-    fn maximize() -> bool {
-        false
-    }
-}
-
 pub fn quantile_loss(y: &[f64], yhat: &[f64], sample_weight: &[f64], alpha: Option<f32>) -> f64 {
     let mut w_sum = 0.;
     let res = y
@@ -55,6 +27,16 @@ pub fn quantile_loss(y: &[f64], yhat: &[f64], sample_weight: &[f64], alpha: Opti
     res / w_sum
 }
 
+pub struct RootMeanSquaredLogErrorMetric {}
+impl EvaluationMetric for RootMeanSquaredLogErrorMetric {
+    fn calculate_metric(y: &[f64], yhat: &[f64], sample_weight: &[f64], _alpha: Option<f32>) -> f64 {
+        root_mean_squared_log_error(y, yhat, sample_weight)
+    }
+    fn maximize() -> bool {
+        false
+    }
+}
+
 pub fn root_mean_squared_log_error(y: &[f64], yhat: &[f64], sample_weight: &[f64]) -> f64 {
     let mut w_sum = 0.;
     let res = y
@@ -67,6 +49,23 @@ pub fn root_mean_squared_log_error(y: &[f64], yhat: &[f64], sample_weight: &[f64
         })
         .sum::<f64>();
     (res / w_sum).sqrt()
+}
+
+/// # Root Mean Squared Error (RMSE)
+/// 
+/// ### Objective
+/// | **Objective**  | **Range** |
+/// | :----------: |:---------------:|
+/// | Minimuze   | `]-inf, inf[` |
+/// 
+pub struct RootMeanSquaredErrorMetric {}
+impl EvaluationMetric for RootMeanSquaredErrorMetric {
+    fn calculate_metric(y: &[f64], yhat: &[f64], sample_weight: &[f64], _alpha: Option<f32>) -> f64 {
+        root_mean_squared_error(y, yhat, sample_weight)
+    }
+    fn maximize() -> bool {
+        false
+    }
 }
 
 pub fn root_mean_squared_error(y: &[f64], yhat: &[f64], sample_weight: &[f64]) -> f64 {
